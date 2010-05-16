@@ -31,8 +31,13 @@ mmlib.xml{
       1.wrap = |(1)<br/>
       2 < .1
       2.wrap = |(2)<br/>
-      3 < .1
-      3.wrap = |(3)<br/>
+      #3 < .1
+      #3.wrap = |(3)<br/>
+      3 = XML
+      3.src = TEXT
+      3.src.current = 1
+      3.renderObj = TEXT
+      3.renderObj.field = this:name 
     }
     
     30 = TEXT

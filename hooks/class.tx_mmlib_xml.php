@@ -8,17 +8,18 @@ define('SPLITCHAR',"\0");
 
 class tx_mmlib_xml{
 
+  private $cObj = null;
+
+  function __construct(){
+    $this->cObj = t3lib_div::makeInstance('tslib_cObj');
+  }
+
   function cObjGetSingleExt($name,$conf,$TSkey,$parent){
-    if($conf['src.']){
-      $conf['src'] = $parent->cObjGetSingle($conf['src'],$conf['src.'],'src');
-      unset($conf['src.']);
-    }
-    print(t3lib_div::view_array($conf).'<hr>');
-    if(empty($conf['src']))return 'no src';
-    $content = '';
-    $parent->data = $this->getData($conf['src']);
-    $content .= $parent->cObjGetSingle($conf['renderObj'],$conf['renderObj.'],'renderObj');
-    if($conf['stdWrap.'])$content = $parent->stdWrap($content,$conf['stdWrap.']);// apply total stdWrap
+    print(t3lib_div::view_array($conf).'<hr>');//DEBUG
+    if($conf['src.'])$conf['src'] = $this->cObj->cObjGetSingle($conf['src'],$conf['src.']);
+    $this->cObj->start($this->getData($conf['src']));
+    $content = $this->cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);
+    if($conf['stdWrap.'])$content = $this->cObj->stdWrap($content,$conf['stdWrap.']);// apply total stdWrap
     return $content;
   }
   
@@ -26,16 +27,12 @@ class tx_mmlib_xml{
     $xml = simplexml_load_string($src);
     if(!$xml)return null;
     $data = array();
-    foreach( $xml->children() as $key => $child){
-      $data['child:'.$key][] = $child->asXML();
-    }
-    foreach( $data as $key => $child ){
-      $data[$key] = implode(SPLITCHAR,$child);
-    }
-    foreach( $xml->attributes() as $key => $attribute){
-      $data[$key] = strval($attribute);
-    }
+    foreach( $xml->children() as $key => $child) $data['child:'.$key][] = $child->asXML();
+    foreach( $data as $key => $child ) $data[$key] = implode(SPLITCHAR,$child);
+    foreach( $xml->attributes() as $key => $attribute) $data[$key] = strval($attribute);
+    $data['this:data'] = t3lib_div::view_array($data);
     $data['this:name'] = $xml->getName();
+    $data['this:src'] = $src;
     return $data;
   }
   
