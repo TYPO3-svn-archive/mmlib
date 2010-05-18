@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin &quot;tx_mmlib_pi1&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tt_content.list_type_pi1">Typoscript</label>
+			<label index="pi1_title">Typoscript</label>
+			<label index="pi1_plus_wiz_description">Typoscript generated content</label>
+      <label index="flexform.sheet_general">General Settings</label>
+      <label index="flexform.tspath">Typoscript</label>
+      <label index="flexform.caching">Caching?</label>
+			<label index="dummy">Dummy</label>
+		</languageKey>
+	</data>
+</T3locallang>

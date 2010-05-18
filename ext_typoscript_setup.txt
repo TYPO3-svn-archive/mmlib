@@ -51,3 +51,7 @@ mmlib.xml{
     
   }
 }
+
+mmlib.random = TEXT
+mmlib.random.value = Zufallszahl
+mmlib.random.stdWrap.rand = 0|9
