@@ -15,7 +15,6 @@ class tx_mmlib_xml{
   }
 
   function cObjGetSingleExt($name,$conf,$TSkey,$parent){
-    print(t3lib_div::view_array($conf).'<hr>');//DEBUG
     if($conf['src.'])$conf['src'] = $this->cObj->cObjGetSingle($conf['src'],$conf['src.']);
     $this->cObj->start($this->getData($conf['src']));
     $content = $this->cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);
