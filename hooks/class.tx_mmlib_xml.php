@@ -13,12 +13,19 @@ class tx_mmlib_xml{
   function __construct(){
     $this->cObj = t3lib_div::makeInstance('tslib_cObj');
   }
-
+  
   function cObjGetSingleExt($name,$conf,$TSkey,$parent){
-    if($conf['src.'])$conf['src'] = $this->cObj->cObjGetSingle($conf['src'],$conf['src.']);
-    $this->cObj->start($this->getData($conf['src']));
-    $content = $this->cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);
+  
+    $src = $parent->cObjGetSingle($conf['src'],$conf['src.'],$TSkey.'.src');
+    
+    print("<!--\n");var_dump($conf['src'],$conf['src.'],$src);print("-->\n");/*DEBUG*/
+    
+    $this->cObj->start($this->getData($src));
+    
+    $content = $this->cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.'],$TSkey.'.renderObj');
+    
     if($conf['stdWrap.'])$content = $this->cObj->stdWrap($content,$conf['stdWrap.']);// apply total stdWrap
+    
     return $content;
   }
   
@@ -29,9 +36,9 @@ class tx_mmlib_xml{
     foreach( $xml->children() as $key => $child) $data['child:'.$key][] = $child->asXML();
     foreach( $data as $key => $child ) $data[$key] = implode(SPLITCHAR,$child);
     foreach( $xml->attributes() as $key => $attribute) $data[$key] = strval($attribute);
-    $data['this:data'] = t3lib_div::view_array($data);
+    //$data['this:data'] = t3lib_div::view_array($data);
+    //$data['this:src'] = $src;
     $data['this:name'] = $xml->getName();
-    $data['this:src'] = $src;
     return $data;
   }
   
