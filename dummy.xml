@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vater name="Henning" alter="60" >
-  <sohn name="Markus" alter="34">
-    <enkel name="unbekannt" alter="0"/>
-  </sohn>
+  <sohn name="Markus" alter="34" />
   <sohn name="Felix" alter="32" />
   <tochter name="Christine" alter="27"/>
 </vater> 

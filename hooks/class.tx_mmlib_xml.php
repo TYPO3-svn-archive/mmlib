@@ -15,17 +15,10 @@ class tx_mmlib_xml{
   }
   
   function cObjGetSingleExt($name,$conf,$TSkey,$parent){
-  
     $src = $parent->cObjGetSingle($conf['src'],$conf['src.'],$TSkey.'.src');
-    
-    print("<!--\n");var_dump($conf['src'],$conf['src.'],$src);print("-->\n");/*DEBUG*/
-    
     $this->cObj->start($this->getData($src));
-    
     $content = $this->cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.'],$TSkey.'.renderObj');
-    
     if($conf['stdWrap.'])$content = $this->cObj->stdWrap($content,$conf['stdWrap.']);// apply total stdWrap
-    
     return $content;
   }
   

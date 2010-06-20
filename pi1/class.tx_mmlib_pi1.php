@@ -55,6 +55,41 @@ class tx_mmlib_pi1 extends tslib_pibase {
     $content = $this->cObj->cObjGetSingle('COA',array( '10' => '< '.$tspath ));
 		return $this->pi_wrapInBaseClass($content);
 	}
+
+  // converts an php-array into an js-array
+  static function array_js($conf,$prefix=''){
+    $line = array();
+    if(is_numeric(implode('',array_keys($conf)))){// numeric array
+      foreach($conf as $key => $value){
+        if(is_array($value))
+          $line[] = self::array_js($value,$prefix);
+        elseif(is_numeric($value))
+          $line[] = floatval($value);
+        elseif(!strcasecmp($value,'true'))
+          $line[] = 'true';
+        elseif(!strcasecmp($value,'false'))
+          $line[] = 'false';
+        else
+          $line[] = sprintf( "'%s'", $value );
+      }
+      return "[".implode(",",$line)."]";
+    }else{// assoziative array
+      foreach($conf as $key => $value){
+        if(is_array($value))
+          $line[] = sprintf( $prefix."  %s:%s", rtrim($key,'.'), self::array_js($value,$prefix.'  ') );
+        elseif(is_numeric($value))
+          $line[] = sprintf( $prefix."  %s:%s", $key, floatval($value) );
+        elseif(!strcasecmp($value,'true'))
+          $line[] = sprintf( $prefix."  %s:true", $key );
+        elseif(!strcasecmp($value,'false'))
+          $line[] = sprintf( $prefix."  %s:false", $key );
+        else
+          $line[] = sprintf( $prefix."  %s:'%s'", $key, $value );
+      }
+      return "{\n".implode(",\n",$line)."\n".$prefix."}";
+    }
+  }
+	
 }
 
 

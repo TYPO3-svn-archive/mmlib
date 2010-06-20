@@ -42,8 +42,8 @@ mmlib.xml{
   }
 }
 
-#mmlib.random = TEXT
-#mmlib.random{
-#  value = eins,zwei,drei
-#  listNum.stdWrap.rand = 0|2
-#}
+mmlib.random = TEXT
+mmlib.random{
+  value = eins,zwei,drei
+  listNum.stdWrap.rand = 0|max
+}
