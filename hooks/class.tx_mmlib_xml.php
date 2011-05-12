@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  Handle xml data.
  */
@@ -7,9 +6,9 @@
 define('SPLITCHAR',"\0");
 
 class tx_mmlib_xml{
-
+  
   private $cObj = null;
-
+  
   function __construct(){
     $this->cObj = t3lib_div::makeInstance('tslib_cObj');
   }
@@ -36,5 +35,4 @@ class tx_mmlib_xml{
   }
   
 }
-
 ?>
