@@ -1,0 +1,4 @@
+#
+# include menu item functions
+#
+includeLibs.reversemenu = EXT:mmlib/user_itemArrayProcFunc.php
