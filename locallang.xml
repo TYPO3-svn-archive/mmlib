@@ -7,6 +7,10 @@
   <data type="array">
     <languageKey index="default" type="array">
       <label index="static_name">mmlib examples</label>
+      <label index="example">Example</label>
+    </languageKey>
+    <languageKey index="de" type="array">
+      <label index="example">Beispiel</label>
     </languageKey>
   </data>
 </T3locallang>

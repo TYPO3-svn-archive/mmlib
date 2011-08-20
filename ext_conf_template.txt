@@ -1,2 +1,18 @@
+
 # cat=basic; type=string; label=Path to sass compiler
 sass = /var/lib/gems/1.8/bin/sass --style compact
+
+# customsubcategory=example=LLL:EXT:redmine/locallang.xml:example
+
+# cat=example/example/; type=integer; label=LLL:EXT:redmine/locallang.xml:example
+example = 1000
+
+TSConstantEditor.example{
+  header = Headline
+  description = This is just an example. // Next Line.
+  bulletlist = <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">1</span> Topic // <span style="background:red; padding:1px 2px; color:#fff; font-weight:bold;">2</span> Topic
+  image = ext_icon.gif
+  1=example
+}
+
+## http://typo3.org/documentation/document-library/core-documentation/doc_core_tstemplates/0.0.1/view/2/5/
