@@ -10,7 +10,8 @@ class tx_mmlib_pagerenderer {
     if(!strcasecmp(substr($filename,-5),'.scss')){
       if(file_exists($filename)){
         $target = sprintf('typo3temp/sass/%s.css',basename($filename,'.scss'));
-        exec(sprintf('%s %s %s',$extConf['sass'],$filename,$target));
+        $exec = sprintf('%s %s %s',$extConf['sass'],$filename,$target);
+        exec($exec);
         if(file_exists($target)){
           return $target;
         }
