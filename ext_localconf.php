@@ -10,4 +10,7 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap'][] = '
 $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][] =  'EXT:mmlib/hooks/class.tx_mmlib_pagerenderer.php:tx_mmlib_pagerenderer->renderPreProcess';
 //$TYPO3_CONF_VARS['SC_OPTIONS']['ext/direct_mail']['res/scripts/class.dmailer.php']['mailMarkersHook'] = array('EXT:mmlib/hooks/class.tx_mmlib_directmail.php:tx_mmlib_directmail->mailMarkersHook');
 // => try EXT:directmail_personalization
+//if(TYPO3_MODE=='BE'){
+//  $TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys'][$_EXTKEY] = array('EXT:'.$_EXTKEY.'/cli/class.tx_mmlib_cli.php','_CLI_mmlib');
+//}
 ?>
