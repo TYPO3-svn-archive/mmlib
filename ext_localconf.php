@@ -8,5 +8,6 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClas
 $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass'][] = array('DATA',   'EXT:mmlib/hooks/class.tx_mmlib_data.php:tx_mmlib_data'     );
 $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap'][] = 'EXT:mmlib/hooks/class.tx_mmlib_stdwrap.php:&tx_mmlib_stdwrap';
 $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][] =  'EXT:mmlib/hooks/class.tx_mmlib_pagerenderer.php:tx_mmlib_pagerenderer->renderPreProcess';
-//$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_gifbuilder.php']['gifbuilder-ConfPreProcess'][] =  'EXT:mmlib/hooks/class.tx_mmlib_gifbuilder.php:tx_mmlib_gifbuilder->confPreProcess';
+//$TYPO3_CONF_VARS['SC_OPTIONS']['ext/direct_mail']['res/scripts/class.dmailer.php']['mailMarkersHook'] = array('EXT:mmlib/hooks/class.tx_mmlib_directmail.php:tx_mmlib_directmail->mailMarkersHook');
+// => try EXT:directmail_personalization
 ?>
