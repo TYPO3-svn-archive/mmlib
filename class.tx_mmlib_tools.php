@@ -54,15 +54,14 @@ class tx_mmlib_tools{
    *
    **/
   static function versioningOL($data){
+    $tmp = self::getWSData($data);// get live data
     if($GLOBALS['TSFE']->sys_page->versioningPreview){// if in versioning preview
-      $tmp = self::getWSData($data);// get live data
       foreach( self::getWSData($data,$GLOBALS['TSFE']->sys_page->versioningWorkspaceId) as $uid => $row ){// cycle throu previews
-        $tmp[$row['uid']] = $row;// overlay live with preview
+        $tmp[$row['t3ver_oid']] = $row;// overlay live with preview
+        //t3lib_div::devLog('versioningOL','mmlib',0,$tmp[$row['t3ver_oid']]);
       }
-      return $tmp;// return overlayed data
-    }else{// if in live view
-      return self::getWSData($data);// return live data
     }
+    return $tmp;
   }
   
   /**
@@ -88,21 +87,14 @@ class tx_mmlib_tools{
    *
    **/
   static function getWSData($data,$wsid = 0){
-    if($wsid > 0){
+    if($wsid > 0){// workspace data
       array_walk($data,function(&$row,$uid,$wsid){
-        if( ($row['pid'] < 0) && ($row['t3ver_wsid'] == $wsid)){
-          $row = array_merge($row,array(
-            'uid' => $row['t3ver_oid'],
-            't3ver_oid' => $row['uid']
-          ));
-        }else{
-          $row = false;
-        }
+        if( ($row['pid'] > -1) || ($row['t3ver_wsid'] != $wsid)) $row = false;// flag live data
       },$wsid);
-      return array_filter($data);
-    }else{
+      return array_filter($data);// strip flagged data
+    }else{// live data
       return array_filter($data,function($row){
-        return $row['pid'] > -1;
+        return $row['pid'] > -1;// live data has pid
       });
     }
   }
