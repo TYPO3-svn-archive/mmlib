@@ -25,19 +25,43 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+/**
+ *
+ *  @see: VERSIONING: http://typo3.org/documentation/document-library/core-documentation/doc_core_api/4.3.0/view/3/2/#id2506707
+ *
+ **/
+
 function user_getActiveTO($content, $conf, $pid = 0){
   
+  //t3lib_div::devLog('sys_page|object_vars','mmlib',0,get_object_vars($GLOBALS['TSFE']->sys_page));
+  //t3lib_div::devLog('sys_page|class_methods','mmlib',0,get_class_methods($GLOBALS['TSFE']->sys_page));
+  //t3lib_div::devLog('sys_page|versioningPreview = '.$GLOBALS['TSFE']->sys_page->versioningPreview,'mmlib',0);
+  
   $row = array_shift($GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-    'pid, tx_templavoila_to, tx_templavoila_next_to',
+    'uid, pid, tx_templavoila_to, tx_templavoila_next_to',
     'pages',
     'uid='.($pid?$pid:$GLOBALS['TSFE']->id)
   ));
 
-  t3lib_div::devLog('user_getActiveTO','mmlib',0,array(
-    'page' => $GLOBALS['TSFE']->id,
-    'row' => $row,
-    'pid' => $pid
-  ));
+  // overlay if previewing workspace version
+  if($GLOBALS['TSFE']->sys_page->versioningPreview){
+    //t3lib_div::devLog('sys_page|versioningWorkspaceId = '.$GLOBALS['TSFE']->sys_page->versioningWorkspaceId,'mmlib',0);//DEBUG
+    $tmp = array_shift($GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+      implode(',',array_keys($row)),
+      'pages',
+      implode(' AND ',array(
+        't3ver_wsid = '.$GLOBALS['TSFE']->sys_page->versioningWorkspaceId,
+        't3ver_oid = '.$row['uid'],
+        'pid < 0'
+      ))
+    ));
+    if(is_array($tmp)){
+      $tmp['pid'] = $row['pid'];
+      $row = $tmp;
+    }
+  }
+
+  //t3lib_div::devLog(json_encode($row),'mmlib',0);//DEBUG
   
   // if not current page and "tx_templavoila_next_to" is set
   if( $pid && $row['tx_templavoila_next_to'] ) return $row['tx_templavoila_next_to'];
