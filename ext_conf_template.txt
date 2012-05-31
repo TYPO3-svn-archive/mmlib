@@ -1,4 +1,7 @@
 
+# cat=basic; type=boolean; label=Use verbose dev log
+devlog = 0
+
 # cat=basic; type=string; label=Path to sass compiler
 sass = /var/lib/gems/1.8/bin/sass --style compact
 

@@ -58,7 +58,7 @@ class tx_mmlib_tools{
     if($GLOBALS['TSFE']->sys_page->versioningPreview){// if in versioning preview
       foreach( self::getWSData($data,$GLOBALS['TSFE']->sys_page->versioningWorkspaceId) as $uid => $row ){// cycle throu previews
         $tmp[$row['t3ver_oid']] = $row;// overlay live with preview
-        //t3lib_div::devLog('versioningOL','mmlib',0,$tmp[$row['t3ver_oid']]);
+        if(self::isDevLog())t3lib_div::devLog('->versioningOL','mmlib',0,$tmp[$row['t3ver_oid']]);//DEBUG
       }
     }
     return $tmp;
@@ -99,6 +99,23 @@ class tx_mmlib_tools{
     }
   }
   
+  static function renderResult($cObj,$content,$conf,$table,$result){
+    $NUM_ROWS = count($result);
+    if(!is_array($conf['renderObj.']))return $NUM_ROWS;// return number of entrys if no rendering given
+    $cObj->LOAD_REGISTER(array(strtoupper($table.'_ROWS')=>$NUM_ROWS),'');// load count to register
+    $COUNTER = 0;
+    foreach( $result as $index => $row ){
+      $cObj = t3lib_div::makeInstance('tslib_cObj');// create unique cObject
+      $cObj->start($row,$table);// attach data
+      $cObj->LOAD_REGISTER(array(
+        'COUNTER' => $COUNTER++
+      ),'');
+      $content .= $cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);// render content
+      unset($cObj);// release memory
+    }
+    return $content;
+  }
+  
   /** 
    *  helper for querys
    *
@@ -112,6 +129,7 @@ class tx_mmlib_tools{
    *
    **/
   static function renderQuery($cObj,$content,$conf,$query,$table,$overlay=true){
+    if(self::isDevLog())$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
     $result = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
       implode(', ',   $query['SELECT']  ),
       implode(', ',   $query['FROM']    ),
@@ -121,23 +139,15 @@ class tx_mmlib_tools{
       $query['LIMIT'],
       'uid'
     );
+    if(self::isDevLog()){
+      t3lib_div::devLog('->renderQuery','mmlib',0,array($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery));//DEBUG
+      $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = FALSE;
+    }
     if($overlay){// apply versioning & co
       $result = self::versioningOL($result);// handle versioning
       $result = self::filterHidden($result);// handle hidden
     }
-    $NUM_ROWS = count($query);
-    if(!is_array($conf['renderObj.']))return $NUM_ROWS;// return number of entrys if no rendering given
-    $cObj->LOAD_REGISTER(array(strtoupper($table.'_ROWS')=>$NUM_ROWS),'');// load count to register
-    $COUNTER = 0;
-    foreach( $result as $index => $row ){
-      $cObj = t3lib_div::makeInstance('tslib_cObj');// create unique cObject
-      $cObj->start($row,$table);// attach data
-      $cObj->LOAD_REGISTER(array(
-        'COUNTER'   => $COUNTER++
-      ),'');
-      $content .= $cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);// render content
-      unset($cObj);// release memory
-    }
+    $content = self::renderResult($cObj,$content,$conf,$table,$result);
     unset($result);// release memory
     return $content;
   }
@@ -155,6 +165,15 @@ class tx_mmlib_tools{
     if($conf['wrap']) $content = $cObj->wrap($content,$conf['wrap']);
     if($conf['stdWrap.']) $content = $cObj->stdWrap($content,$conf['stdWrap.']);
     return $content;
+  }
+  
+  static function getExtConf($key){
+    return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$key]);
+  }
+  
+  static function isDevLog(){
+    $conf = self::getExtConf('mmlib');
+    return $conf['devlog'];
   }
   
 }
