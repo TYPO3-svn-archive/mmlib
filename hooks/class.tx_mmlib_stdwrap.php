@@ -60,6 +60,15 @@ class tx_mmlib_stdwrap implements tslib_content_stdWrapHook {
       }
       $content = vsprintf($content,$conf['sprintf.']);
     }
+    /**
+     *  provides strpos() for stdWrap
+     *  $content => haystack 
+     *  $conf['strpos'] => needle
+     *  $conf['strpos.']['insensitive'] => make search case-insensitive?
+     */
+    if(!empty($conf['regex'])){
+      $content = preg_match($conf['regex'],$content);
+    }
     return $content;
   }
   function stdWrapPostProcess($content, array $conf, tslib_cObj &$parentObject) {
