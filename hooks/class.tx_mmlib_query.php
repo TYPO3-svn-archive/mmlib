@@ -39,8 +39,10 @@ class tx_mmlib_query{
     
     if($conf['renderObj']){// render each as specified
       foreach($rows as $index => $row){
-        $parent->start($row,$conf['table']);
-        $content .= $parent->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);
+        $cObj = t3lib_div::makeInstance('tslib_cObj');// work on private element
+        $cObj->start($row,$conf['table']);
+        $content .= $cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);
+        unset($cObj);
       }
     }else{// return amount of affected rows
       $content .= count($rows);
