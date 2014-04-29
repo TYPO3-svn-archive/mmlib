@@ -38,7 +38,7 @@ class tx_mmlib_query{
     );
     
     if($conf['renderObj']){// render each as specified
-      foreach($rows as $index => $row){
+      if(is_array($rows))foreach($rows as $index => $row){
         $cObj = t3lib_div::makeInstance('tslib_cObj');// work on private element
         $cObj->start($row,$conf['table']);
         $content .= $cObj->cObjGetSingle($conf['renderObj'],$conf['renderObj.']);

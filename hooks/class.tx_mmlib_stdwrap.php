@@ -4,8 +4,9 @@
 *  [...]
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-require_once(PATH_typo3.'/sysext/cms/tslib/interfaces/interface.tslib_content_stdwraphook.php');
-class tx_mmlib_stdwrap implements tslib_content_stdWrapHook {
+require_once(PATH_tslib.'interfaces/interface.tslib_content_stdwraphook.php');
+require_once(PATH_tslib.'interfaces/interface.tslib_content_getdatahook.php');
+class tx_mmlib_stdwrap implements tslib_content_stdWrapHook, tslib_content_getDataHook {
   private $listNumCount = null;
   function stdWrapPreProcess($content, array $conf, tslib_cObj &$parentObject) {
     if($conf['listNum.']['stdWrap.']['rand']){
@@ -73,5 +74,15 @@ class tx_mmlib_stdwrap implements tslib_content_stdWrapHook {
   function stdWrapPostProcess($content, array $conf, tslib_cObj &$parentObject) {
     return $content;
   }
+  /*  
+   *  extend getData
+   *  
+   */
+	public function getDataExtension($getDataString, array $fields, $sectionValue, $returnValue, tslib_cObj &$parentObject){
+		if(preg_match('/^session:(.*)$/i',$getDataString,$matches)){
+      $returnValue = $GLOBALS['TSFE']->fe_user->getKey('ses','mmlib_'.$matches[1]);
+    }
+		return $returnValue;
+	}
 }
 ?>

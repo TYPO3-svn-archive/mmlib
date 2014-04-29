@@ -1,0 +1,51 @@
+#
+#
+#
+mmlib = PAGE
+mmlib{
+  config{
+    doctype = <!DOCTYPE html>
+    htmlTag_setParams = lang="de"
+    xhtml_cleaning = all
+    removeDefaultJS = 1
+    renderCharset = utf-8
+    metaCharset = utf-8
+    additionalHeaders = Content-Type:text/html;charset=utf-8
+    index_enable = 1
+    index_externals = 1
+    language = de
+    locale_all = de_DE
+    simulateStaticDocuments = 0
+    disablePrefixComment = 0
+    prefixLocalAnchors = all
+    no_cache = 0
+    admPanel = 0
+    debug = 0
+    sendCacheHeaders = 1
+    uniqueLinkVars = 1
+  }
+  typeNum = 1373964299
+  10 = TEXT
+  10.value = Hello World
+}
+##
+##
+##
+#mmlib.xml = XML
+#mmlib.xml{
+#  src = FILE
+#  src.file = EXT:mmlib/dummy.xml
+#  renderObj = COA
+#  renderObj{
+#    10 = TEXT
+#    10.value = Hello World
+#  }
+#}
+##
+##
+##
+#mmlib.random = TEXT
+#mmlib.random{
+#  value = eins,zwei,drei
+#  listNum.stdWrap.rand = 0|max
+#}

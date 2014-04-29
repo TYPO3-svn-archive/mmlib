@@ -63,6 +63,7 @@ class tx_mmlib_pi1_wizicon {
 					function includeLocalLang()	{
 						$llFile = t3lib_extMgm::extPath('mmlib').'pi1/locallang.xml';
 						$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+						//$LOCAL_LANG = t3lib_div::readLLfile($llFile, $GLOBALS['LANG']->lang);// Typo3 v6.0+
 						
 						return $LOCAL_LANG;
 					}
